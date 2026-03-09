@@ -40,5 +40,7 @@ class Package(custom.GStreamer, package.Package):
             self.config.target_arch != Architecture.ARM64):
             self.files.append('gst-plugins-rs:libs')
             self.files.append('gst-plugins-rs:plugins_core')
+            self.files.append('gstmse-rs:libs')
             self.files_devel.append('gst-plugins-rs:files_devel')
             self.files_devel.append('gst-plugins-rs:plugins_core_devel')
+            self.files_devel.append('gstmse-rs:files_devel')

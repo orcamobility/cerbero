@@ -1,0 +1,47 @@
+# -*- Mode: Python -*- vi:si:et:sw=4:sts=4:ts=4:syntax=python
+from cerbero.utils import shell
+from cerbero.utils.rust import Prelink
+
+class Recipe(recipe.Recipe):
+    name = 'gstmse-rs'
+    version = '0.1.0'
+    stype = SourceType.GIT
+    remotes = {'origin': 'git@github.com:orcamobility/gstmse-rs.git'}
+    commit = 'origin/main'
+    licenses = [License.MPLv2]
+    btype = BuildType.CARGO_C
+
+    deps = ['gstreamer-1.0', 'gst-plugins-base-1.0']
+
+    files_libs = [
+        'libgstmse',
+    ]
+
+    files_devel = [
+        'include/gstreamer-1.0/gst/mse',
+        '%(libdir)s/pkgconfig/gstmse.pc',
+    ]
+
+    def prepare(self):
+        if Platform.is_app_platform(self.config.target_platform):
+            self.library_type = LibraryType.STATIC
+        else:
+            self.library_type = LibraryType.BOTH
+
+    def post_install(self):
+        shell.replace(os.path.join(self.config.libdir, 'pkgconfig', 'gstmse.pc'),
+                      {'-I${includedir}/gstmse': '-I${includedir}/gstreamer-1.0'})
+        if self.config.target_platform == Platform.DARWIN and \
+            self.config.target_subsystem == Subsystem.MACOS:
+            libraries = [f for f in self.devel_files_list(only_existing=False)
+                                    if f.endswith('.a')]
+            prelinker = Prelink(self.config, self.env, self.logfile)
+            for f in libraries:
+                prelinker.prelink(f, '_gst_plugin_*')
+            pc_files = [
+                f for f in self.files_list_by_category(self.DEVEL_CAT, only_existing=False)
+                if f.endswith('.pc')
+            ]
+            for f in pc_files:
+                prelinker.patch_pkgconfig(f)
+        super().post_install()
