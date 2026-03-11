@@ -70,6 +70,7 @@ class Recipe(custom.GStreamer):
                      'modplug': 'disabled',
                      'mpeg2enc': 'disabled',
                      'mplex': 'disabled',
+                     'mse': 'disabled',
                      'musepack': 'disabled',
                      'neon': 'disabled',
                      'nvcodec': 'disabled',
@@ -107,7 +108,6 @@ class Recipe(custom.GStreamer):
         'libgstinsertbin-1.0',
         'libgstisoff-1.0',
         'libgstmpegts-1.0',
-        'libgstmse-1.0',
         'libgstphotography-1.0',
         'libgstplay-1.0',
         'libgstplayer-1.0',
@@ -129,7 +129,6 @@ class Recipe(custom.GStreamer):
         'include/gstreamer-1.0/gst/interfaces',
         'include/gstreamer-1.0/gst/isoff',
         'include/gstreamer-1.0/gst/mpegts',
-        'include/gstreamer-1.0/gst/mse',
         'include/gstreamer-1.0/gst/play',
         'include/gstreamer-1.0/gst/player',
         'include/gstreamer-1.0/gst/sctp',
@@ -141,7 +140,6 @@ class Recipe(custom.GStreamer):
         '%(libdir)s/pkgconfig/gstreamer-codecparsers-1.0.pc',
         '%(libdir)s/pkgconfig/gstreamer-insertbin-1.0.pc',
         '%(libdir)s/pkgconfig/gstreamer-mpegts-1.0.pc',
-        '%(libdir)s/pkgconfig/gstreamer-mse-1.0.pc',
         '%(libdir)s/pkgconfig/gstreamer-photography-1.0.pc',
         '%(libdir)s/pkgconfig/gstreamer-play-1.0.pc',
         '%(libdir)s/pkgconfig/gstreamer-player-1.0.pc',
@@ -165,13 +163,11 @@ class Recipe(custom.GStreamer):
 
     files_plugins_core = [
              '%(libdir)s/gstreamer-1.0/libgstinsertbin%(mext)s',
-             '%(libdir)s/gstreamer-1.0/libgstmse%(mext)s',
              '%(libdir)s/gstreamer-1.0/libgstswitchbin%(mext)s',
     ]
 
     files_plugins_core_devel = [
              '%(libdir)s/gstreamer-1.0/libgstinsertbin.a', '%(libdir)s/gstreamer-1.0/libgstinsertbin.la',
-             '%(libdir)s/gstreamer-1.0/libgstmse.a', '%(libdir)s/gstreamer-1.0/libgstmse.la',
              '%(libdir)s/gstreamer-1.0/libgstswitchbin.a', '%(libdir)s/gstreamer-1.0/libgstswitchbin.la',
     ]
 
@@ -518,7 +514,6 @@ class Recipe(custom.GStreamer):
         'GstCodecs-1.0',
         'GstInsertBin-1.0',
         'GstMpegts-1.0',
-        'GstMse-1.0',
         'GstPlay-1.0',
         'GstPlayer-1.0',
         'GstTranscoder-1.0',
