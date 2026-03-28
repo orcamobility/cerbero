@@ -29,7 +29,7 @@ class GStreamer(recipe.Recipe):
     if tagged_for_release:
         # If we're using a manifest, that means we want to use the specified
         # commits and remotes.
-        use_git = recipe.Recipe._using_manifest_force_git
+        use_git = recipe.Recipe._using_manifest_force_git or True
         # If we're tagged for release and we're running on Cerbero CI, we want
         # to use the release tarballs even if a manifest is specified, because
         # we want to test that the tarballs work.
@@ -45,10 +45,15 @@ class GStreamer(recipe.Recipe):
         else:
             # Odd version, use git main
             commit = 'origin/main'
+
+        # Override with our own fork and our own branch
+        remotes = {'origin': 'https://gitlab.freedesktop.org/nirbheek/gstreamer.git'}
+        commit = f'{version}-mse'
     else:
         stype = SourceType.TARBALL
         url = 'https://gstreamer.freedesktop.org/src/%(name)s/%(name)s-%(version)s.tar.xz'
         tarball_dirname = '%(name)s-%(version)s'
+        assert False
 
     def __init__(self, config, env):
         super().__init__(config, env)

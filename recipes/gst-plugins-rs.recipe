@@ -21,6 +21,7 @@ class Recipe(recipe.Recipe):
         commit = f'gstreamer-{GStreamer.version}'
     else:
         commit = 'origin/0.15'
+    commit = f'gstreamer-{GStreamer.version}'
     # Each plugin uses one or more of these licenses.
     licenses = [{
         License.Apachev2: ['LICENSE-APACHE'],
