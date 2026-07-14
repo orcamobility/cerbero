@@ -58,6 +58,14 @@ class Recipe(recipe.Recipe):
         # 'optimizations': 'enabled,
         'nonfree': 'disabled',
         'version3': 'disabled',
+        # Do a minimal build of ffmpeg
+        'auto_features': 'disabled',
+        'h264_decoder': 'enabled',
+        'hevc_decoder': 'enabled',
+        'aac_decoder': 'enabled',
+        'x86asm': 'auto',
+        'pthreads': 'auto',
+        'w32threads': 'auto',
     }
 
     deps = ['bzip2', 'zlib']
