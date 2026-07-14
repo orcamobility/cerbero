@@ -566,6 +566,11 @@ class IOSPackage(ProductPackage, FrameworkHeadersMixin):
         if os.path.exists(os.path.join(version_dir, 'lib')):
             shutil.rmtree(os.path.join(version_dir, 'lib'))
         self._create_merged_lib(libname, files)
+        # Copy the versions manifest (from the dump-versions recipe) into the
+        # root dir of the framework so it survives into the final xcframework
+        versions_txt = os.path.join(self.config.prefix, 'share', 'versions.txt')
+        if os.path.exists(versions_txt):
+            shutil.copy(versions_txt, os.path.join(version_dir, 'versions.txt'))
         self.package.packages = []
         if not self.xcframework:
             self.fw_path = self.tmp

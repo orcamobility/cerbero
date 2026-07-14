@@ -97,6 +97,7 @@ class XCFramework(Command):
         xcfw = tmp / 'GStreamer.xcframework'
         xcodebuild = [shutil.which('xcodebuild'), '-create-xcframework']
 
+        versions_file = None
         for tarball in args.source:
             tarball_folder = tempfile.mkdtemp(prefix=self.tmpdir_prefix, dir=tmp)
             m.action(f'Unpacking {tarball.name}')
@@ -105,6 +106,8 @@ class XCFramework(Command):
             version_path = Path(tarball_folder) / 'GStreamer.framework' / 'Versions' / '1.0'
             library = version_path / 'lib' / 'libGStreamer.a'
             headers = version_path / 'Headers'
+            if versions_file is None and (version_path / 'versions.txt').exists():
+                versions_file = version_path / 'versions.txt'
             if not library.exists():
                 raise UsageError(f'Missing library libGStreamer.a in {tarball.name}')
             if not headers.exists():
@@ -116,6 +119,9 @@ class XCFramework(Command):
             xcodebuild += ['-library', library, '-headers', headers.absolute()]
         xcodebuild += ['-output', xcfw]
         shell.new_call(xcodebuild, cmd_dir=tmp)
+
+        if versions_file is not None:
+            shutil.copyfile(versions_file, xcfw / 'versions.txt')
 
         Tar(dst).configure(config, tmp).pack(self.list_fw_files(tmp), force=args.force)
 
