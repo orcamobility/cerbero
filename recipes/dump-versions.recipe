@@ -24,6 +24,11 @@ class Recipe(recipe.Recipe):
             self.deps.append('gst-plugins-rs')
         if self.config.variants.python:
             self.deps.append('gst-python-1.0')
+        # Always rebuild this recipe so that versions.txt reflects the
+        # currently-built versions of all recipes, effectively making
+        # this recipe always "stale".
+        if self.config.cookbook is not None:
+            self.config.cookbook.reset_recipe_status(self.name)
 
     async def install(self):
         vf = os.path.join(self.config.prefix, 'share', 'versions.txt')
