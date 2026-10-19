@@ -7,7 +7,7 @@ class Recipe(recipe.Recipe):
     version = '0.1.0'
     stype = SourceType.GIT
     remotes = {'origin': 'git@github.com:orcamobility/gstmse-rs.git'}
-    commit = 'origin/main'
+    commit = 'ef5dbab6e60cff768e5ae87c7b33ae4dd7146b72'
     licenses = [License.MPLv2]
     btype = BuildType.CARGO_C
 
